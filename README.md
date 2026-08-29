@@ -222,6 +222,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Generate stats card
         uses: readme-tools/github-readme-stats-action@v1
@@ -229,7 +231,7 @@ jobs:
           card: stats
           options: username=saranmalek&show_icons=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=8A2BE2&icon_color=8A2BE2&text_color=c9d1d9
           path: profile/stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Generate top languages card
         uses: readme-tools/github-readme-stats-action@v1
@@ -237,7 +239,7 @@ jobs:
           card: top-langs
           options: username=saranmalek&layout=compact&theme=radical&hide_border=true&bg_color=0d1117&title_color=8A2BE2&text_color=c9d1d9
           path: profile/top-langs.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Commit cards
         run: |
@@ -248,9 +250,11 @@ jobs:
           git push
 ```
 
-**3. Commit and push it**, then trigger it once manually from the **Actions** tab (`Run workflow`) rather than waiting for the 3 AM cron.
+**3. Before running it, add a Personal Access Token as a repo secret** named `PAT_TOKEN` (Settings → Secrets and variables → Actions → New repository secret), with `repo` + `read:user` scopes. The default `GITHUB_TOKEN` isn't sufficient — it can't read account-wide stats like total contributions across repos.
 
-**4. Once it runs successfully**, a `profile/` folder with `stats.svg` and `top-langs.svg` will appear in this repo, and the `<img>` tags above will start rendering them immediately — no further README changes needed.
+**4. Commit and push the workflow**, then trigger it once manually from the **Actions** tab (`Run workflow`) rather than waiting for the 3 AM cron.
+
+**5. Once it runs successfully**, a `profile/` folder with `stats.svg` and `top-langs.svg` will appear in this repo, and the `<img>` tags above will start rendering them immediately — no further README changes needed.
 
 </details>
 
