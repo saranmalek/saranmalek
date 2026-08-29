@@ -1,10 +1,8 @@
 name: Update README Stats Cards
-
 on:
   schedule:
     - cron: "0 3 * * *"
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,23 +10,22 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
       - name: Generate stats card
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: stats
           options: username=saranmalek&show_icons=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=8A2BE2&icon_color=8A2BE2&text_color=c9d1d9
           path: profile/stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
-
+          token: ${{ secrets.PAT_TOKEN }}
       - name: Generate top languages card
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: top-langs
           options: username=saranmalek&layout=compact&theme=radical&hide_border=true&bg_color=0d1117&title_color=8A2BE2&text_color=c9d1d9
           path: profile/top-langs.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
-
+          token: ${{ secrets.PAT_TOKEN }}
       - name: Commit cards
         run: |
           git config user.name "github-actions[bot]"
